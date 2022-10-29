@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Rent a car</h3>
+    <hr />
+    <form action="{% url 'rentcar-new' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row pt-2">
+            <div class="col">Car</div>
+            <div class="col">
+                <select
+                    name="{{ form.car.name }}"
+                    id="{{ form.car.id_for_label }}"
+                    class="form-select"
+                    {% if form.car.value != None %}value="{{ form.car.value }}"{% endif %}>
+                        <option value="">Select car</option>
+                        {% for car in available_cars %}
+                            <option value="{{ car.id }}">{{ car.model }} - {{ car.licence_plate }}</option>
+                        {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col">Customer</div>
+            <div class="col">
+                <select
+                    name="{{ form.customer.name }}"
+                    id="{{ form.customer.id_for_label }}"
+                    class="form-select"
+                    {% if form.customer.value != None %}value="{{ form.customer.value }}"{% endif %}>
+                        <option value="">Select customer</option>
+                        {% for customer in customers %}
+                            <option value="{{ customer.id }}">{{ customer.first_name }} {{ customer.last_name }}</option>
+                        {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row pt-2">
+            <div class="col">Due Date</div>
+            <div class="col">
+                <input
+                        type="date"
+                        id="{{ form.due_date.id_for_label }}"
+                        name="{{ form.due_date.name }}"
+                        class="form-control"
+                        {% if form.due_date.value != None %}value="{{ form.due_date.value }}"{% endif %} />
+            </div>
+        </div>
+
+        <div class="pt-2">
+            <input type="submit" class="btn btn-outline-success btn-lg btn-block w-100" value="Save Renting contract" />
+        </div>
+    </form>
+
+    <h3 class="pt-3">Rented cars</h3>
+    <hr />
+    <div class="rented-cars">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Pos</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Licence plate</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Due Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rental in rentals %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ rental.car.model }}</td>
+                        <td>{{ rental.car.licence_plate }}</td>
+                        <td>{{ rental.customer.first_name }} {{ rental.customer.last_name }}</td>
+                        <td>{{ rental.due_date }}</td>
+                        <td>{{ rental.status }}</td>
+                        <td><a href="{{ rental.id }}" class="btn btn-outline-secondary btn-sm">Edit</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
