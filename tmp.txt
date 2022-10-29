@@ -1,0 +1,21 @@
+<div class="row pt-2">
+    <div class="col">First name</div>
+    <div class="col">
+        <input id="first_name" name="first-name" type="text" class="form-control" placeholder="First name" />
+    </div>
+</div>
+<div class="row pt-2">
+    <div class="col">Last Name</div>
+    <div class="col">
+        <input id="last_name" name="last_name" type="text" class="form-control" placeholder="Last name" />
+    </div>
+</div>
+<div class="row pt-2">
+    <div class="col">Mail</div>
+    <div class="col">
+        <input id="mail" name="mail" type="email" class="form-control" placeholder="email" />
+    </div>
+</div>
+<div class="pt-2">
+    <input type="submit" class="btn btn-outline-success btn-lg btn-block w-100" value="Save customer" />
+</div>

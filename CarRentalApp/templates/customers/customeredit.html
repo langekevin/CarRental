@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Edit Customer: {{ customer.first_name }} {{ customer.last_name }}</h3>
+    <hr />
+    <form action="{% url 'editcustomer' customer.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row pt-2">
+            <div class="col">First name</div>
+            <div class="col">
+                <input id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.name }}" type="text" class="form-control" placeholder="First name" {% if form.first_name.value != None %}value="{{ form.first_name.value|stringformat:'s' }}"{% endif %}/>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col">Last Name</div>
+            <div class="col">
+                <input id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.name }}" type="text" class="form-control" placeholder="Last name" {% if form.last_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %} />
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col">Mail</div>
+            <div class="col">
+                <input id="{{ form.mail.is_for_label }}" name="{{ form.mail.name }}" type="email" class="form-control" placeholder="email" {% if form.mail.value != None %}value="{{ form.mail.value|stringformat:'s' }}"{% endif %} />
+            </div>
+        </div>
+        <div class="pt-2">
+            <button type="submit" class="btn btn-outline-success btn-lg btm-block w-100">Update Customer</button>
+        </div>
+    </form>
+
+    <div class="pt-5">
+        <h3>Back to overview</h3>
+        <hr />
+        <a href="{% url 'customers' %}" class="btn btn-outline-secondary btn-lg">Go back</a>
+    </div>
+
+    <div class="pt-5">
+        <h3>Danger area</h3>
+        <hr />
+        <div class="pt-2">
+            <a href="{% url 'deletecustomer' customer.id %}" class="btn btn-outline-danger btn-lg">Delete Customer</a>
+        </div>
+    </div>
+
+{% endblock %}

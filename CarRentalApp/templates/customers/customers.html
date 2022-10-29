@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>New Customer</h1>
+    <hr />
+    <form action="{% url 'newcustomer' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row pt-2">
+            <div class="col">First name</div>
+            <div class="col">
+                <input id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.name }}" type="text" class="form-control" placeholder="First name" {% if form.first_name.value != None %}value="{{ form.first_name.value|stringformat:'s' }}"{% endif %}/>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col">Last Name</div>
+            <div class="col">
+                <input id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.name }}" type="text" class="form-control" placeholder="Last name" {% if form.last_name.value != None %}value="{{ form.last_name.value|stringformat:'s' }}"{% endif %} />
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col">Mail</div>
+            <div class="col">
+                <input id="{{ form.mail.is_for_label }}" name="{{ form.mail.name }}" type="email" class="form-control" placeholder="email" {% if form.mail.value != None %}value="{{ form.mail.value|stringformat:'s' }}"{% endif %} />
+            </div>
+        </div>
+        <div class="pt-2">
+            <input type="submit" class="btn btn-outline-success btn-lg btn-block w-100" value="Save customer" />
+        </div>
+    </form>
+
+    <h1 class="pt-3">Saved Customers</h1>
+    <hr />
+
+    <div class="customers">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">E-Mail</th>
+                <th scope="col">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ customer.first_name }}</td>
+                        <td>{{ customer.last_name }}</td>
+                        <td>{{ customer.mail }}</td>
+                        <td><a href="{{ customer.id }}" class="btn btn-outline-secondary btn-sm">Edit</a> </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% endblock %}
 
+    <div class="container-fluid bg-light text-dark p-5">
+        <div class="container bg-light p-5">
+            <h1 class="display-4">Welcome to CarRental</h1>
+            <hr>
+            <p>
+                At CarRental you have the possibility to add your customer data and all the cars you currently
+                have available. If you finished the setup, you can start renting cars to the customers and
+                also keep track of all the due dates.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="row pt-5">
+        <div class="col-md-4">
+            <h2>Manage Cars</h2>
+            <p>
+                Begin adding your cars and keep an overview which cars are available and which are rent to customers
+            </p>
+            <p><a class="btn btn-primary" href="{% url 'cars' %}">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Manage Customers</h2>
+            <p>Add customers to the system or update their data.</p>
+            <p><a class="btn btn-primary" href="{% url 'customers' %}">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Rent Cars</h2>
+            <p>You can easily rent available cars to the customers that where already added to the system. Just follow the link.</p>
+            <p><a class="btn btn-primary" href="{% url 'rentcar' %}">Learn more &raquo;</a></p>
+        </div>
+    </div>
+
+
+{% endblock %}
+<h2>Rent cars</h2>
