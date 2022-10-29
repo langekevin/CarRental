@@ -1,5 +1,7 @@
 # CarRental
- ISD22 Challenge for renting cars
+ ISD22 Challenge for renting cars.
+ 
+This is a very basic project using Django that was created in context of the Information Systems Development course at the University of Liechtenstein.
 
 
 # Django Setup
