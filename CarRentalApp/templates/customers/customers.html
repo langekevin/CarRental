@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>New Customer</h1>
+    <h3>New Customer</h3>
     <hr />
     <form action="{% url 'newcustomer' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -28,7 +28,7 @@
         </div>
     </form>
 
-    <h1 class="pt-3">Saved Customers</h1>
+    <h3 class="pt-3">Saved Customers</h3>
     <hr />
 
     <div class="customers">

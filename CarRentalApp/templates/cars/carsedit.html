@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Edit Car: {{ car.model }} - {{ car.licence_plate }}</h3>
+    <hr />
+
+    <form action="{% url 'edit-car' car.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row pt-2">
+            <div class="col">Licence Plate</div>
+            <div class="col">
+                <input
+                        type="text"
+                        id="{{ form.licence_plate.id_for_label }}"
+                        name="{{ form.licence_plate.name }}"
+                        class="form-control"
+                        placeholder="Model"
+                        {% if form.licence_plate.value != None %}value="{{ form.licence_plate.value|stringformat:'s' }}"{% endif %}
+                    />
+            </div>
+        </div>
+        <div class="pt-2">
+            <button class="btn btn-outline-success btn-lg btn-block w-100">Update Car</button>
+        </div>
+    </form>
+
+    <div class="pt-5">
+        <h3>Back to overview</h3>
+        <hr />
+        <a href="{% url 'cars' %}" class="btn btn-outline-secondary btn-lg">Go back</a>
+    </div>
+
+    <div class="pt-5">
+        <h3>Danger area</h3>
+        <hr />
+
+        {% if car.rental_status is False %}
+            <div class="pt-3">
+                <a href="{% url 'delete-car' car.id %}" class="btn btn-outline-danger btn-lg">Delete car</a>
+            </div>
+        {% else %}
+            <p>
+                Car can't be deleted because a customer currently rents the car.
+            </p>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

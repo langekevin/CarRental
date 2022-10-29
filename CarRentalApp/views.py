@@ -1,9 +1,12 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
-from .models import Customer
-from .forms import NewCustomerForm
+from .models import Customer, Car
+from .forms import NewCustomerForm, CarForm
 
 
 def index(request):
+    """
+    Simple Start screen for car renting application
+    """
     return render(request, 'index.html', {})
 
 
@@ -51,7 +54,9 @@ def edit_customer(request, customerid: int):
         customer.save()
         return redirect(customers)
     else:
-        customer_data = Customer.objects.filter(id=customerid).first()
+        if Customer.objects.filter(id=customerid).count() == 0:
+            return redirect(customers)
+        customer_data = Customer.objects.get(id=customerid)
         form = NewCustomerForm(instance=customer_data)
         return render(request, "customers/customeredit.html", {'customer': customer_data, 'form': form})
 
@@ -65,9 +70,65 @@ def delete_customer(request, customerid: int):
     return redirect(customers)
 
 
-def rent_car(request):
-    return render(request, 'rentcar.html', {})
-
-
 def cars(request):
-    return render(request, 'cars.html', {})
+    """
+    Gets all the cars from the database and gives the possibility
+    to create a new car.
+    """
+    form = CarForm(request.POST)
+    car_data = Car.objects.all().order_by('model')
+    return render(request, 'cars/cars.html', {'cars': car_data, 'form': form})
+
+
+def new_car(request):
+    """
+    Creates a new car in the database if the formdata is valid
+    """
+    if request.method == 'POST' and request.POST:
+        form = CarForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            car_data = Car.objects.all().order_by('model')
+            return render(request, 'cars/cars.html', {'cars': car_data, 'form': form})
+    return redirect(cars)
+
+
+def edit_car(request, car_id):
+    """
+    Updates the data of a car
+    """
+    if request.method == "POST" and request.POST:
+        form = CarForm(request.POST)
+        car = Car.objects.filter(id=car_id).first()
+        if car.licence_plate != form.data.get('licence_plate'):
+            # User updated the licence plate of the car
+            # Check if the new licence plate is already used
+            is_used = Car.objects.filter(licence_plate=form.data.get('licence_plate')).count() > 0
+            if is_used:
+                return render(request, "cars/carsedit.html", {'car': car, 'form': form})
+        car.licence_plate = form.data.get('licence_plate')
+        car.save()
+        return redirect(cars)
+
+    if Car.objects.filter(id=car_id).count() == 0:
+        return redirect(cars)
+    car_data = Car.objects.get(id=car_id)
+    form = CarForm(instance=car_data)
+    return render(request, "cars/carsedit.html", {'car': car_data, 'form': form})
+
+
+def delete_car(request, car_id: int):
+
+    try:
+        car = Car.objects.get(id=car_id)
+        car.delete()
+    except Exception as e:
+        print(e)
+
+    return redirect(cars)
+
+
+def rent_car(request):
+
+    return render(request, 'rentcar.html', {})

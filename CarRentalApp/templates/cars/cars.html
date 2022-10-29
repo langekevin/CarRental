@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>New Car</h3>
+    <hr />
+    <form action="{% url 'new-car' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row pt-2">
+            <div class="col">Model</div>
+            <div class="col">
+                <input
+                        id="{{ form.model.id_for_label }}"
+                        name="{{ form.model.name }}"
+                        type="text"
+                        class="form-control"
+                        placeholder="Car Model"
+                        {% if form.model.value != None %}value="{{ form.model.value|stringformat:'s' }}"{% endif %}
+                />
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="col">Licence plate</div>
+            <div class="col">
+                <input
+                        id="{{ form.licence_plate.id_for_label }}"
+                        name="{{ form.licence_plate.name }}"
+                        type="text"
+                        class="form-control"
+                        placeholder="Licence plate"
+                        {% if form.licence_plate.value != None %}value="{{ form.licence_plate.value|stringformat:'s' }}"{% endif %}
+                />
+            </div>
+        </div>
+        <div class="pt-2">
+            <input type="submit" class="btn btn-outline-success btn-lg btn-block w-100" value="Save Car" />
+        </div>
+    </form>
+
+    <h3 class="pt-3">Saved cars</h3>
+    <hr />
+    <div class="cars">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Pos</th>
+                <th scope="col">Model</th>
+                <th scope="col">Licence Plate</th>
+                <th scope="col">Rental Status</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.licence_plate }}</td>
+                    <td>{% if car.rental_status %}Rented{% else %}Available{% endif %}</td>
+                    <td>{% if car.rental_status %}{{ car.due_date }}{% else %}-{% endif %}</td>
+                    <td><a href="{{ car.id }}" class="btn btn-outline-secondary btn-sm">Edit</a> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock %}
