@@ -1,4 +1,6 @@
 import datetime as dt
+
+import django.db.models.deletion
 from django.shortcuts import render, redirect
 from dateutil.relativedelta import relativedelta
 from .models import Customer, Car, Rental
@@ -63,7 +65,11 @@ def edit_customer(request, customerid: int):
         return redirect(customers)
 
     form = NewCustomerForm(instance=customer_data)
-    return render(request, "customers/customeredit.html", {'customer': customer_data, 'form': form})
+
+    # Check if customer has rented cars
+    is_deletable = Rental.objects.filter(customer=customer_data).count() == 0
+    print(is_deletable)
+    return render(request, "customers/customeredit.html", {'customer': customer_data, 'form': form, 'isDeletable': is_deletable})
 
 
 def delete_customer(request, customerid: int):
@@ -74,6 +80,8 @@ def delete_customer(request, customerid: int):
         customer = Customer.objects.get(id=customerid)
         customer.delete()
     except Customer.DoesNotExist:
+        pass
+    except django.db.models.deletion.RestrictedError:
         pass
 
     return redirect(customers)
@@ -137,6 +145,8 @@ def delete_car(request, car_id: int):
         car = Car.objects.get(id=car_id)
         car.delete()
     except Car.DoesNotExist:
+        pass
+    except django.db.models.deletion.RestrictedError:
         pass
 
     return redirect(cars)
