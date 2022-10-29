@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Rented Car: {{ rental.car.model }}</h3>
+    <hr />
+    <div class="row pt-2">
+        <div class="col">Model</div>
+        <div class="col">{{ rental.car.model }}</div>
+    </div>
+    <div class="row pt-2">
+        <div class="col">Licence plate</div>
+        <div class="col">{{ rental.car.licence_plate }}</div>
+    </div>
+    <div class="row pt-2">
+        <div class="col">Customer</div>
+        <div class="col">{{ rental.customer.first_name }} {{ rental.customer.last_name }}</div>
+    </div>
+    <div class="row pt-2">
+        <div class="col">E-Mail</div>
+        <div class="col">{{ rental.customer.mail }}</div>
+    </div>
+    <div class="row pt-2">
+        <div class="col">Due Date</div>
+        <div class="col">{{ rental.due_date }}</div>
+    </div>
+    <div class="row pt-2">
+        <div class="col">Status</div>
+        <div class="col">{{ rental.status }}</div>
+    </div>
+
+    <h3 class="pt-3">Return Car</h3>
+    <hr />
+    <p>
+        The customer successfully returned the car. The car is now available for other customers to be rented.
+    </p>
+    <a href="{% url 'return-car' rental.id %}" class="btn btn-outline-success btn-lg">Return car</a>
+
+    <h3 class="pt-3">Expand renting period</h3>
+    <hr/>
+    <p>
+        The customer wants to expand the renting period of the car. The expansion of the period
+        is always one month.
+    </p>
+    <a href="{% url 'expand-renting-duration' rental.id %}" class="btn btn-outline-success btn-lg">Expand period</a>
+
+    <h3 class="pt-3">Back to overview</h3>
+    <hr />
+    <a href="{% url 'rentcar' %}" class="btn btn-outline-secondary btn-lg">Go back</a>
+
+{% endblock %}
