@@ -14,5 +14,3 @@ def is_future_date(date: str) -> bool:
         return False
     except ValueError:
         return False
-
-

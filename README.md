@@ -3,22 +3,32 @@
  
 This is a very basic project using Django that was created in context of the Information Systems Development course at the University of Liechtenstein.
 
+# Get started
 
-# Django Setup
+1. Clone the repository
 
-1. Create Django project
 ````shell
-django-admin startproject <PROJECT_NAME>
+git clone https://github.com/langekevin/CarRental.git
 ````
-2. Enter project
+
+2. Get into the folder
+
 ````shell
-cd <PROJECT_NAME>
+cd CarRental
 ````
-3. Migrate django
+
+3. Install necessary packages
 ````shell
- python manage.py migrate
+pip install -r requirements.txt 
 ````
-4. Create superuser
+
+4. Migrate database
+
+````shell
+python manage.py migrate
+````
+
+5. Create superuser
 ````shell
 python manage.py createsuperuser
 Username (leave blank to use 'kevinlange'): <USERNAME>
@@ -27,11 +37,9 @@ Password: <PASSWORD>
 Password (again): <PASSWORD>
 Superuser created successfully.
 ````
-5. Start server
+
+6. Start the server
+
 ````shell
-python manage.py runserver 
-````
-6. Create an app
-````shell
-python manage.py startapp <SITE_NAME>
+python manage.py runserver
 ````
